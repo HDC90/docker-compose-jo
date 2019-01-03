@@ -80,7 +80,17 @@ services:
     environment:
       - "inotify=yes"
       - "notify_interval=900"
-      - "MINIDLNA_FRIENDLY_NAME=Gundam"
+      - "MINIDLNA_FRIENDLY_NAME=Media"
       - "MINIDLNA_MEDIA_DIR_1=V,/media/series"
       - "MINIDLNA_MEDIA_DIR_2=V,/media/downloads"
     restart: always
+  samba:
+    image: dperson/samba
+    container_name: "samba"
+    ports:
+      - "139:139"
+      - "445:445"
+    restart: always
+    command: -s "media;/storage;yes;no;yes;all"
+    volumes:
+      - "${USERDIR}:/storage" 
